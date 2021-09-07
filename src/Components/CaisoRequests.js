@@ -1,3 +1,4 @@
+import { v4 as uuid } from "uuid";
 import { useState } from "react";
 import ScraperApi from "../api";
 import RequestForm from "./RequestForm";
@@ -12,6 +13,8 @@ function CaisoRequests() {
         formattedData = formatDate(formattedData);
         const newReport = await ScraperApi.getData(formattedData);
         newReport.header["timestamp"] = new Date();
+        newReport.header["reportId"] = uuid();
+        newReport["request"] = formattedData;
         setReports(oldReports => [
             ...oldReports, newReport
         ]);
@@ -25,10 +28,27 @@ function CaisoRequests() {
         return data;
     }
 
+    async function update(request, reportId) {
+        const index = reports.findIndex(report => report.header.reportId === reportId);
+        console.log("INDEX OF REPORTID HERE", index);
+        const newReport = await ScraperApi.getData(request);
+        newReport.header["timestamp"] = new Date();
+        newReport.header["reportId"] = reportId;
+        setReports(oldReports => {
+            const reportsCopy = [...oldReports];
+            reportsCopy[index] = {
+                ...oldReports[index],
+                header: newReport.header,
+                reports: newReport.reports,
+            };
+            return reportsCopy;
+        });
+    }
+
     return (
         <div className="CaisoRequests">
             <RequestForm request={request}/>
-            <ResultsList reports={reports}/>
+            <ResultsList reports={reports} update={update}/>
         </div>
     )
 }

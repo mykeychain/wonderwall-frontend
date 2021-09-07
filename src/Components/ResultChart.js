@@ -1,14 +1,23 @@
 import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
+import { DASH_ARRAY, STROKE_COLORS, LINE_WIDTH } from "./ChartOptions";
 
 function ResultChart({ report }) {
     const [options, setOptions] = useState({});
     const [series, setSeries] = useState([]);
-    const reports = report.reports;
-    const resourceNames = Object.keys(report.reports);
-    const dataItems = Object.keys(reports[resourceNames[0]])
+    const [lastTimestamp, setLastTimestamp] = useState("");
 
+    console.debug("chart render");
     useEffect(function setInitialData(){
+        if (report.header.timestamp.toLocaleString() === lastTimestamp) return null;
+        console.log("CHART TIMESTAMP DOES NOT MATCH CURRENT, UPDATING CHART", report.header.reportId);
+
+        setLastTimestamp(report.header.timestamp.toLocaleString());
+
+        const reports = report.reports;
+        const resourceNames = Object.keys(report.reports);
+        const dataItems = Object.keys(reports[resourceNames[0]])
+
         // set options on mount
         const categories = reports[resourceNames[0]][dataItems[0]].map(dataItem => dataItem["interval_start_gmt"]);
         let xaxis = {
@@ -17,6 +26,11 @@ function ResultChart({ report }) {
         setOptions({
             chart: {
                 id: report.header.report,
+            },
+            colors: STROKE_COLORS,
+            stroke: {
+                dashArray: DASH_ARRAY,
+                width: LINE_WIDTH
             },
             xaxis: xaxis,
             yaxis: {
@@ -43,7 +57,7 @@ function ResultChart({ report }) {
             }
         }
         setSeries(newSeries);
-    }, [ ])
+    })
 
 
 

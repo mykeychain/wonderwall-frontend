@@ -1,9 +1,13 @@
 import './App.css';
 import CaisoRequests from "./Components/CaisoRequests";
+import Navbar from './Components/Navbar';
 
 function App() {
   return (
-    <CaisoRequests />
+    <div className="App">
+      <Navbar />
+      <CaisoRequests />
+    </div>
   );
 }
 

@@ -1,10 +1,11 @@
 import "./ResultTable.css";
 
 function ResultTable({ report }) {
+    console.log(report);
     const data = report.reports;
     const resourceNames = Object.keys(report.reports);
     const dataItems = Object.keys(data[resourceNames[0]])
-
+    console.debug("table render");
     // returns [[item, value, value, ...], [item, value, value, ...], ...]
     function parseResource(resource) {
         let resourceData = [];
@@ -38,11 +39,11 @@ function ResultTable({ report }) {
                 </thead>
                 <tbody>
                     {tableData.map(resource => 
-                        resource.map(item => 
+                        resource.map((item, i) => 
                             {return (
-                                <tr className="ResultTable-tr">
-                                    {item.map(cell => 
-                                        <td>{cell}</td>
+                                <tr key={i} className="ResultTable-tr">
+                                    {item.map((cell, j) => 
+                                        <td key={j}>{cell}</td>
                                     )}
                                 </tr>
                             )})
