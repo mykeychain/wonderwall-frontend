@@ -1,9 +1,9 @@
 import Result from "./Result";
 
-function ResultsList({ reports, update }) {
+function ResultsList({ reports, triggerUpdate }) {
     return (
         <div className="ResultsList">
-            {reports.map((report, i) => <Result report={report} update={update} key={i} />)}
+            {reports.map((report, i) => <Result report={report} triggerUpdate={triggerUpdate} key={i} />)}
         </div>
     )
 }
