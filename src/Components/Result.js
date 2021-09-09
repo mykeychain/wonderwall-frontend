@@ -2,16 +2,16 @@ import { useEffect, useState } from "react";
 import ResultChart from "./ResultChart";
 import ResultTable from "./ResultTable";
 
-function Result({ report, update }){
+function Result({ report, triggerUpdate }){
     // const [isLiveUpdating, setIsLiveUpdating] = useState(false);
     const [isAfterFirstUpdate, setIsAfterFirstUpdate] = useState(false);
 
     useEffect(function setFirstIntervalTimer() {
         const timestamp = report.header.timestamp;
-        const firstInterval = ((5 - (timestamp.getMinutes() % 5)) * 60 - timestamp.getSeconds());
-        console.log("FIRST INTERVAL HERE", firstInterval);
+        const interval = +report.header["update_interval"];
+        const firstInterval = ((interval - (timestamp.getMinutes() % interval)) * 60 - timestamp.getSeconds());
         const firstTimeout = setTimeout(() => {
-            rtmUpdate();
+            triggerUpdate(report.header.reportId);
             setIsAfterFirstUpdate(true);
         }, firstInterval * 1000);
 
@@ -21,19 +21,14 @@ function Result({ report, update }){
     useEffect(function setRecurringTimer() {
         if (isAfterFirstUpdate) {
             const recurringInterval = setInterval(() => {
-                console.log("INSIDE INTERVAL");
-                rtmUpdate();
-            }, (5 * 60 * 1000));
+                triggerUpdate(report.header.reportId);
+            }, (+report.header["update_interval"] * 60 * 1000));
     
             return function cleanUp() {clearInterval(recurringInterval)};
         }
 
         return null;
     }, [isAfterFirstUpdate])
-
-    async function rtmUpdate() {
-        await update(report.request, report.header.reportId);
-    }
 
     return (
         <div className="Result card col-md-11 mx-auto mt-2 mb-4">
