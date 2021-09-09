@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ScraperApi from "../api";
 import RequestForm from "./RequestForm";
 import ResultsList from "./ResultsList";
@@ -8,12 +8,23 @@ import ResultsList from "./ResultsList";
 function CaisoRequests() {
     const [reports, setReports] = useState([])
 
-    async function request(formData) {
+    useEffect(function liveUpdate() {
+        const updateInterval = setInterval(() => {
+            for (let i = 0; i < reports.length; i++) {
+                if (reports[i].header["isLiveUpdating"]) {
+                    
+                }
+            }
+        }, (5 * 60 * 1000))
+    }, [])
+
+    async function request({isLiveUpdating, ...formData}) {
         let formattedData = {...formData};
         formattedData = formatDate(formattedData);
         const newReport = await ScraperApi.getData(formattedData);
         newReport.header["timestamp"] = new Date();
         newReport.header["reportId"] = uuid();
+        newReport.header["isLiveUpdating"] = isLiveUpdating;
         newReport["request"] = formattedData;
         setReports(oldReports => [
             ...oldReports, newReport
@@ -30,7 +41,6 @@ function CaisoRequests() {
 
     async function update(request, reportId) {
         const index = reports.findIndex(report => report.header.reportId === reportId);
-        console.log("INDEX OF REPORTID HERE", index);
         const newReport = await ScraperApi.getData(request);
         newReport.header["timestamp"] = new Date();
         newReport.header["reportId"] = reportId;
@@ -45,10 +55,23 @@ function CaisoRequests() {
         });
     }
 
+    function triggerUpdate(reportId) {
+        const index = reports.findIndex(report => report.header.reportId === reportId);
+        setReports(oldReports => {
+            const reportsCopy = [...oldReports];
+            reportsCopy[index] = {
+                ...oldReports[index],
+                header: {
+                    isUpdating: true,
+                }
+            };
+        });
+    }
+
     return (
         <div className="CaisoRequests">
             <RequestForm request={request}/>
-            <ResultsList reports={reports} update={update}/>
+            <ResultsList reports={reports} triggerUpdate={triggerUpdate}/>
         </div>
     )
 }
