@@ -98,16 +98,22 @@ function OtherFields({ type, request }) {
                                 name={field.name}
                                 value={formData[field.name]}
                                 onChange={handleChange}
-                                className={`form-select form-select-sm ${formData[field.name] ? "valid" : "invalid"}`}>
+                                className={
+                                    `form-select 
+                                    form-select-sm 
+                                    ${formData[field.name] ? "valid" : "invalid"}`
+                                }>
                                     {field.options.map((option, i) => (
-                                        <option value={option} key={i}>{option}</option>
+                                        <option value={option} key={i}>
+                                            {option}
+                                        </option>
                                     ))}
                             </select>
                         </div>
                     ))}
                 </div>
                 <div className="OtherFields-date-button-row row mt-2">
-                    <div className="OtherFields-startdatetime col position-relative">
+                    <div className="col position-relative">
                         <label
                             htmlFor="startdatetime"
                             className="form-label">
@@ -120,13 +126,17 @@ function OtherFields({ type, request }) {
                             value={formData["startdatetime"] || ""}
                             placeholder="start date"
                             onChange={handleChange}
-                            className={`form-control form-control-sm ${validateDate() ? "valid" : "invalid"}`}>
+                            className={
+                                `form-control 
+                                form-control-sm 
+                                ${validateDate() ? "valid" : "invalid"}`
+                            }>
                         </input>
                         <div className="invalid-tooltip">
                             Must be before end date
                         </div>
                     </div>
-                    <div className="OtherFields-enddatetime col position-relative">
+                    <div className="col position-relative">
                         <label
                             htmlFor="enddatetime"
                             className="form-label">
@@ -139,31 +149,47 @@ function OtherFields({ type, request }) {
                             value={formData["enddatetime"] || ""}
                             placeholder="end date"
                             onChange={handleChange}
-                            className={`form-control form-control-sm ${validateDate() ? "valid" : "invalid"}`}>
+                            className={
+                                `form-control 
+                                form-control-sm 
+                                ${validateDate() ? "valid" : "invalid"}`
+                            }>
                         </input>
                         <div className="invalid-tooltip">
                             Must be after start date
                         </div>
                     </div>
-                    <div className="OtherFields-apply col d-grid mt-auto mt-xs-3">
+                    <div className="col d-grid mt-auto mt-xs-3">
                         <button
                             className="btn btn-primary btn-sm btn-fullWidth">
                             Apply
                         </button>
                     </div>
                 </div>
-                <div className="OtherFields-form-row row">
+                <div className="OtherFields-live-update-row row">
                     <div className="col ms-3 mt-3 form-check form-switch">
                         <input
                             id="live-updating"
                             name="live-updating"
                             type="checkbox"
-                            className={`form-check-input ${validateLiveUpdates() ? "valid" : "invalid"}`} />
+                            className={
+                                `form-check-input
+                                ${validateLiveUpdates() ? "valid" : "invalid"}`
+                            }/>
                         <label
                             htmlFor="live-updating"
                             className="form-check-label" >
                             Live Updates
                         </label>
+                    </div>
+                </div>
+                <div className={
+                    `OtherFields-alerts-row
+                    row
+                    ${validateLiveUpdates() ? "d-none" : ""}`
+                }>
+                    <div className="mt-2 mx-2 py-1 col alert alert-danger alert-dismissible fade show" role="alert">
+                        For live updates, end date must be today or later.
                     </div>
                 </div>
             </form>
