@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { typeFields } from "./TypeFields";
+import "./OtherFields.css";
 
 function OtherFields({ type, request }) {
     const [formData, setFormData] = useState({});
-    const [errors, setErrors] = useState({});
-    const [isValidated, setIsValidated] = useState(false);
-    console.log(formData);
+    const [needsChanges, setNeedsChanges] = useState(false);
 
     // sets initial state of formData based on type
     useEffect(function getInitialFormValues(){
@@ -21,7 +20,9 @@ function OtherFields({ type, request }) {
     // sets initial enddatetime when startdatetime is first selected
     useEffect(function setInitialEndDate(){
         if (formData["startdatetime"] && !formData["enddatetime"]) {
-            let tomorrow = formData["startdatetime"] ? new Date(formData["startdatetime"]) : null ;
+            let tomorrow = formData["startdatetime"] 
+                ? new Date(formData["startdatetime"]) 
+                : null ;
             tomorrow.setDate(tomorrow.getDate() + 1);
             tomorrow = tomorrow.toISOString().slice(0,10);
     
@@ -41,45 +42,49 @@ function OtherFields({ type, request }) {
             ...oldData, 
             [name]: value
         }));
+
+        validateDate();
     }
 
     // calls parent function on form submit
     function handleSubmit(evt) {
         evt.preventDefault();
-        validateForm();
-        // request(formData);
+        if (!validateDate()) {
+            setNeedsChanges(true);
+            return;
+        };
+
+        request(formData);
+        setNeedsChanges(false);
     }
 
-    function validateForm() {
-        // if no input given for date fields, adds error
-        if (!formData["startdatetime"]) {
-            setErrors(oldErrors => ({
-                ...oldErrors,
-                startdatetime: "Please choose a start date.",
-            }))
-        }
-        if (!formData["enddatetime"]) {
-            setErrors(oldErrors => ({
-                ...oldErrors,
-                startdatetime: "Please choose an end date.",
-            }))
+    function validateDate() {
+        if (!formData["startdatetime"]) return false;
+        if (!formData["enddatetime"]) return false;
+        if (formData["startdatetime"] > formData["enddatetime"]) {
+            return false;
+        }  
+        
+        return true;
+    }
+
+    function validateLiveUpdates() {
+        const current = new Date();
+        const currentDate = current.toISOString().slice(0, 10);
+
+        if (formData["live-updating"]
+            && currentDate > formData["enddatetime"]) {
+            return false;
         }
 
-        if (formData["startdatetime"] > formData["enddatetime"]) {
-            setErrors(oldErrors => ({
-                ...oldErrors,
-                startdatetime: "Start date must be before end date.",
-                enddatetime: "End date must be after start date.",
-            }))
-        };
+        return true;
     }
 
     return (
         <div className="OtherFields">
             <form
                 onSubmit={handleSubmit}
-                className={Object.keys(errors).length ? "was-validated" : ""}
-                noValidate>
+                className={needsChanges ? "validated" : ""}>
                 <div className="OtherFields-form-row row">
                     {typeFields[type].map(field => (
                         <div className="OtherFields-field col" key={field.name}>
@@ -93,7 +98,7 @@ function OtherFields({ type, request }) {
                                 name={field.name}
                                 value={formData[field.name]}
                                 onChange={handleChange}
-                                className="form-select form-select-sm">
+                                className={`form-select form-select-sm ${formData[field.name] ? "valid" : "invalid"}`}>
                                     {field.options.map((option, i) => (
                                         <option value={option} key={i}>{option}</option>
                                     ))}
@@ -101,8 +106,8 @@ function OtherFields({ type, request }) {
                         </div>
                     ))}
                 </div>
-                <div className="OtherFields-form-row row mt-2">
-                    <div className="OtherFields-startdatetime col">
+                <div className="OtherFields-date-button-row row mt-2">
+                    <div className="OtherFields-startdatetime col position-relative">
                         <label
                             htmlFor="startdatetime"
                             className="form-label">
@@ -115,14 +120,13 @@ function OtherFields({ type, request }) {
                             value={formData["startdatetime"] || ""}
                             placeholder="start date"
                             onChange={handleChange}
-                            className="form-control form-control-sm"
-                            required>
+                            className={`form-control form-control-sm ${validateDate() ? "valid" : "invalid"}`}>
                         </input>
-                        <div className="invalid-feedback">
-                            {errors["startdatetime"]}
+                        <div className="invalid-tooltip">
+                            Must be before end date
                         </div>
                     </div>
-                    <div className="OtherFields-enddatetime col">
+                    <div className="OtherFields-enddatetime col position-relative">
                         <label
                             htmlFor="enddatetime"
                             className="form-label">
@@ -135,11 +139,10 @@ function OtherFields({ type, request }) {
                             value={formData["enddatetime"] || ""}
                             placeholder="end date"
                             onChange={handleChange}
-                            className="form-control form-control-sm"
-                            required>
+                            className={`form-control form-control-sm ${validateDate() ? "valid" : "invalid"}`}>
                         </input>
-                        <div className="invalid-feedback">
-                            End date must be after start date
+                        <div className="invalid-tooltip">
+                            Must be after start date
                         </div>
                     </div>
                     <div className="OtherFields-apply col d-grid mt-auto mt-xs-3">
@@ -155,10 +158,10 @@ function OtherFields({ type, request }) {
                             id="live-updating"
                             name="live-updating"
                             type="checkbox"
-                            className="form-check-input" />
+                            className={`form-check-input ${validateLiveUpdates() ? "valid" : "invalid"}`} />
                         <label
                             htmlFor="live-updating"
-                            className="form-check-label">
+                            className="form-check-label" >
                             Live Updates
                         </label>
                     </div>

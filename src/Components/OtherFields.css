@@ -1,0 +1,43 @@
+.form-select {
+    background-image: url('../icons/chevron-down.svg');
+}
+
+.validated .form-select.invalid {
+    border-color: #d9534f;
+    background-image: url('../icons/exclamation-circle.svg'), url('../icons/chevron-down.svg');
+    background-repeat: no-repeat;
+    background-position: right calc(.375em + 1.7875rem) center, right .75rem center;
+    background-size: calc(.75em + .375rem) calc(.75em + .375rem), 16px 12px;
+
+}
+
+.validated .form-select.valid {
+    border-color: #198754;
+    background-image: url('../icons/check-lg.svg'), url('../icons/chevron-down.svg');
+    background-repeat: no-repeat;
+    background-position: right calc(.375em + 1.7875rem) center, right .75rem center;
+    background-size: calc(.75em + .375rem) calc(.75em + .375rem), 16px 12px;
+}
+.validated .form-control.invalid {
+    border-color: #d9534f;
+    background-image: url('../icons/exclamation-circle.svg');
+    background-repeat: no-repeat;
+    background-position: right calc(.375em + 1.7875rem) center;
+    background-size: calc(.75em + .375rem) calc(.75em + .375rem);
+}
+
+.validated .form-control.valid {
+    border-color: #198754;
+    background-image: url('../icons/check-lg.svg');
+    background-repeat: no-repeat;
+    background-position: right calc(.375em + 1.7875rem) center;
+    background-size: calc(.75em + .375rem) calc(.75em + .375rem);
+}
+
+.validated .form-check-input.invalid {
+    border-color: #d9534f;
+}
+
+.validated .form-check-input.valid {
+    border-color: #198754;
+}
