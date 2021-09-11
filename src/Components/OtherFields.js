@@ -42,14 +42,21 @@ function OtherFields({ type, request }) {
             ...oldData, 
             [name]: value
         }));
+    }
 
-        validateDate();
+    function handleCheck(evt) {
+        const { name, checked } = evt.target;
+
+        setFormData(oldData => ({
+            ...oldData,
+            [name]: checked
+        }));
     }
 
     // calls parent function on form submit
     function handleSubmit(evt) {
         evt.preventDefault();
-        if (!validateDate()) {
+        if (!validateDate() || !validateLiveUpdates()) {
             setNeedsChanges(true);
             return;
         };
@@ -174,6 +181,7 @@ function OtherFields({ type, request }) {
                             id="live-updating"
                             name="liveUpdating"
                             type="checkbox"
+                            onChange={handleCheck}
                             className={
                                 `form-check-input
                                 ${validateLiveUpdates() ? "valid" : "invalid"}`
@@ -188,9 +196,13 @@ function OtherFields({ type, request }) {
                 <div className={
                     `OtherFields-alerts-row
                     row
-                    ${validateLiveUpdates() ? "d-none" : ""}`
+                    d-none
+                    ${validateLiveUpdates() ? "" : "invalid"}`
                 }>
-                    <div className="mt-2 mx-2 py-1 col alert alert-danger alert-dismissible fade show" role="alert">
+                    <div className="
+                        my-2 mx-2 py-1 
+                        col alert alert-danger" 
+                        role="alert">
                         For live updates, end date must be today or later.
                     </div>
                 </div>

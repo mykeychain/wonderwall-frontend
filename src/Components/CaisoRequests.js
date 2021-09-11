@@ -8,12 +8,12 @@ import ResultsList from "./ResultsList";
 function CaisoRequests() {
     const [reports, setReports] = useState([])
 
-    async function request(formData) {
-        let formattedData = {...formData};
-        formattedData = formatDate(formattedData);
+    async function request({liveUpdating, ...formData}) {
+        let formattedData = formatDate(formData);
         const newReport = await ScraperApi.getData(formattedData);
         newReport.header["timestamp"] = new Date();
         newReport.header["reportId"] = uuid();
+        newReport.header["liveUpdating"] = liveUpdating;
         newReport["request"] = formattedData;
         setReports(oldReports => [
             ...oldReports, newReport

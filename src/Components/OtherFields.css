@@ -36,8 +36,13 @@
 
 .validated .form-check-input.invalid {
     border-color: #d9534f;
+    background-color: #d9534f;
 }
 
 .validated .form-check-input.valid {
     border-color: #198754;
+}
+
+.validated .OtherFields-alerts-row.invalid {
+    display: flex !important;
 }
