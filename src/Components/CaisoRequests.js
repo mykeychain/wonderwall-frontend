@@ -34,6 +34,7 @@ function CaisoRequests() {
         const newReport = await ScraperApi.getData(request);
         newReport.header["timestamp"] = new Date();
         newReport.header["reportId"] = reportId;
+        newReport.header["liveUpdating"] = true;
         setReports(oldReports => {
             const reportsCopy = [...oldReports];
             reportsCopy[index] = {
