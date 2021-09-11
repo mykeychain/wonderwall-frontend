@@ -3,11 +3,16 @@ import axios from "axios";
 const BASE_URL = "http://localhost:5000/api/CAISO";
 
 class ScraperApi {
-    static async getData(formData) {
-        const resp = await axios.post(BASE_URL, {data: formData});
-        console.log("RESP HERE", resp);
-        return resp.data;
+  static async getData(formData) {
+    try {
+      const resp = await axios.post(BASE_URL, {data: formData});
+      console.log("NO ERROR HERE", resp)
+      return resp.data;
+    } catch(err) {
+      console.error("API ERROR:", err.response.data.message)
+      throw err.response.data.message
     }
+  }
 }
 
 export default ScraperApi;
