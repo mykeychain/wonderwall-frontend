@@ -34,7 +34,7 @@ function OtherFields({ type, request }) {
     }, [ formData ])
 
 
-    // updates formData state on form change
+    // updates formData state on form change and validates date and live updates
     function handleChange(evt) {
         const { name, value } = evt.target;
 
@@ -58,6 +58,7 @@ function OtherFields({ type, request }) {
         setNeedsChanges(false);
     }
 
+    // validates dates, returns boolean
     function validateDate() {
         if (!formData["startdatetime"]) return false;
         if (!formData["enddatetime"]) return false;
@@ -68,11 +69,12 @@ function OtherFields({ type, request }) {
         return true;
     }
 
+    // validates end date if live update is selected, returns boolean
     function validateLiveUpdates() {
         const current = new Date();
         const currentDate = current.toISOString().slice(0, 10);
 
-        if (formData["live-updating"]
+        if (formData["liveUpdating"]
             && currentDate > formData["enddatetime"]) {
             return false;
         }
@@ -170,7 +172,7 @@ function OtherFields({ type, request }) {
                     <div className="col ms-3 mt-3 form-check form-switch">
                         <input
                             id="live-updating"
-                            name="live-updating"
+                            name="liveUpdating"
                             type="checkbox"
                             className={
                                 `form-check-input
