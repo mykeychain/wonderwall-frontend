@@ -2,6 +2,7 @@ import axios from "axios";
 
 const BASE_URL = "http://localhost:5000/api/CAISO";
 
+/** ScraperApi: class with static methods to interact with backend API */
 class ScraperApi {
   static async getData(formData) {
     try {

@@ -3,6 +3,25 @@ import { typeFields } from "./TypeFields";
 import "./OtherFields.css";
 import Errors from "./Errors";
 
+/** OtherFields: manages other fields based on request type
+ *    Props: 
+ *      - type: type of request as str (e.g. "ENE_SLRS")
+ *      - request: parent function
+ * 
+ *    States: 
+ *      - formData: {
+ *          queryname: 'ENE_SLRS',
+ *          tac_zone_name: 'TAC_PGE',
+ *          schedule: 'Export',
+ *          market_run_id: 'RTM',
+ *          startdatetime: '2021-08-01'
+ *          enddatetime: '2021-08-02'
+ *        }
+ *      - needsChanges: boolean (indicates status of selected dates)
+ *      - errors: ["error message", ...]
+ * 
+ *    RequestForm -> OtherFields -> Errors
+ */
 function OtherFields({ type, request }) {
   const [formData, setFormData] = useState({});
   const [needsChanges, setNeedsChanges] = useState(false);
@@ -35,8 +54,7 @@ function OtherFields({ type, request }) {
     }
   }, [ formData ])
 
-
-  // updates formData state on form change and validates date and live updates
+  // updates formData state on form change
   function handleChange(evt) {
     const { name, value } = evt.target;
 
@@ -46,6 +64,7 @@ function OtherFields({ type, request }) {
     }));
   }
 
+  // updates formData state on live update check
   function handleCheck(evt) {
     const { name, checked } = evt.target;
 
@@ -55,7 +74,7 @@ function OtherFields({ type, request }) {
     }));
   }
 
-  // calls parent function on form submit
+  // calls parent function on form submit; sets errors state if catch error
   async function handleSubmit(evt) {
     evt.preventDefault();
     setErrors([]);
