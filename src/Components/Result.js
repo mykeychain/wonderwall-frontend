@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import ResultChart from "./ResultChart";
-import ResultDropdown from "./ResultDropdown";
 import ResultTable from "./ResultTable";
 import ResultTimestamp from "./ResultTimestamp";
 
@@ -80,14 +79,9 @@ function Result({ report, update }){
 
   return (
     <div className="Result card col-md-11 mx-auto mt-2 mb-4">
-      <div className="Result-title-row row">
-        <div className="col-10">
-          <h3 className="m-4">
-            {report.header["REPORT"]} {report.header["MKT_TYPE"]}
-          </h3>
-        </div>
-        <ResultDropdown report={report} />
-      </div>
+      <h3 className="m-4">
+        {report.header["REPORT"]} {report.header["MKT_TYPE"]}
+      </h3>
       <ResultChart report={report}/>
       <ResultTable report={report} />
       <ResultTimestamp report={report} />
