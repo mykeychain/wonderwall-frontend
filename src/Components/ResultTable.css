@@ -1,15 +1,25 @@
+.ResultTable table {
+    table-layout: fixed;
+}
+
+.ResultTable th {
+    width: 90px;
+}
+
 .ResultTable-tr th:first-child, 
 .ResultTable-tr td:first-child {
     background-color: rgba(255, 255, 255, 1);
     position: sticky;
     z-index: 1;
     left: 0;
+    width: 135px;
 }
 
-/* .ResultTable-tr th:nth-child(2),
+.ResultTable-tr th:nth-child(2),
 .ResultTable-tr td:nth-child(2) {
     background-color: rgba(255, 255, 255, 1);
     position: sticky;
     z-index: 1;
-    left: 99px;
-} */
+    left: 135px;
+    width: 115px;
+}
