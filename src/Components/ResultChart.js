@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Chart from "react-apexcharts";
 import { DASH_ARRAY, STROKE_COLORS, LINE_WIDTH } from "./ChartOptions";
+import "./ResultChart.css";
 
 /** ResultChart: renders and displays chart of data
  *    Props: 
@@ -80,6 +81,8 @@ function ResultChart({ report }) {
         },
       },
       legend: {
+        showForSingleSeries: true,
+        horizontalAlign: "center",
         position: "top",
       },
     })
