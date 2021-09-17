@@ -23,7 +23,7 @@ const typeFields = {
         }, {
             name: "node",
             label: "Node",
-            options: ["0096WD_7_N001", "0096WD_7_N002", ]
+            options: ["0096WD_7_N001", "0096WD_7_N002", "BAYSHOR2_1_N001" ]
     }],
     ENE_TRANS_LOSS: [{
         name: "market_run_id",
