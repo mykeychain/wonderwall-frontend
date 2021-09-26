@@ -17,9 +17,15 @@ You can view the deployed website [here](https://mikechang-wonderwall.surge.sh/)
 ## Setup Instructions 
 
 1. Clone and install the backend repository [here](https://github.com/mykeychain/CAISO-live-scrape-backend).
-2. `cd CAISO-live-scrape-frontend`
-3. `npm install`
-4. `npm start`
+2. Navigate into Wonderwall directory `cd CAISO-live-scrape-frontend`
+3. Install dependencies `npm install`
+4. Start the React App `npm start`
+
+<br>
+
+## Future Directions
+- Add ability to download data as XML or CSV
+- Add ability to delete reports
 
 <br>
 
