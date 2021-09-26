@@ -1,4 +1,4 @@
-# Wonderwall
+# Wonderwall Frontend
 
 Wonderwall is a full-stack application that redesigns and updates the CAISO OASIS application. Wonderwall utilizes a React frontend and a Flask RESTful backend API. For ease of deployment, the backend repository has been separated and can be accessed [here](https://github.com/mykeychain/CAISO-live-scrape-backend). 
 
