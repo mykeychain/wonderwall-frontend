@@ -1,8 +1,8 @@
 # Wonderwall
 
-Wonderwall is a full-stack application that redesigns and updates the CAISO OASIS application. Wonderwall utilizes a React frontend and a Flask RESTful API. For ease of deployment, the frontend and backend reposities are separate. The backend repository can be accessed [here](https://github.com/mykeychain/CAISO-live-scrape-backend). 
+Wonderwall is a full-stack application that redesigns and updates the CAISO OASIS application. Wonderwall utilizes a React frontend and a Flask RESTful backend API. For ease of deployment, the backend repository has been separated and can be accessed [here](https://github.com/mykeychain/CAISO-live-scrape-backend). 
 
-Wonderwall allows you to search for System Load and Resource Schedule, Locational Marginal Prices, Transmission Loss from geographical nodes all over California's power grid. The app offers the capability to update data live depending on the market type chosen (RTM updates every 5 minutes). Each report also includes a graphical representation of the data that utilizes the Apex Charts library.
+Wonderwall allows you to search for System Load and Resource Schedule, Locational Marginal Prices, and Transmission Loss from geographical nodes all over California's power grid. The app offers the option to update data live depending on the market type chosen (RTM updates every 5 minutes). Each report also utilizes the Apex Charts library to include a graphical representation of the data.
 
 You can view the deployed website [here](https://mikechang-wonderwall.surge.sh/).
 
